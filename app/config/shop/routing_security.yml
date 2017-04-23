@@ -1,0 +1,35 @@
+shop_login:
+    path: /login
+    methods: [GET]
+    defaults:
+        _controller: app.controller.security:loginAction
+        _app_options:
+            template: "shop/login.html.twig"
+
+shop_login_check:
+    path: /login-check
+    methods: [POST]
+    defaults:
+        _controller: app.controller.security:checkAction
+
+shop_logout:
+    path: /logout
+    methods: [GET]
+
+shop_security_resetting_request:
+    path: /resetting/request
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.user:resettingRequestAction
+
+shop_security_resetting_reset:
+    path: /resetting/reset
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.user:resettingResetAction
+
+shop_security_change_password:
+    path: /change-password
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.user:changePassword

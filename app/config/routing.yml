@@ -1,0 +1,14 @@
+admin:
+    resource: '@AppBundle/Controller/Admin'
+    type: annotation
+
+shop:
+    resource: '@AppBundle/Controller/Shop'
+    type: annotation
+
+shop_security:
+    resource: "shop/routing_security.yml"
+
+admin_security:
+    resource: "admin/routing_security.yml"
+    prefix: /admin

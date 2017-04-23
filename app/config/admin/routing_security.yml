@@ -1,0 +1,17 @@
+admin_login:
+    path: /login
+    methods: [GET]
+    defaults:
+        _controller: app.controller.security:loginAction
+        _app_options:
+            template: "admin/login.html.twig"
+
+admin_login_check:
+    path: /login-check
+    methods: [POST]
+    defaults:
+        _controller: app.controller.security:checkAction
+
+admin_logout:
+    path: /logout
+    methods: [GET]

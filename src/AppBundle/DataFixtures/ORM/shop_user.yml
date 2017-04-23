@@ -1,0 +1,17 @@
+AppBundle\Entity\Customer:
+    customer_1:
+        firstName: Julianna
+        lastName: Dalma
+        gender: f
+
+AppBundle\Entity\ShopUser:
+    shop_user_1:
+        customer: '@customer_1'
+        email: julianna_dalma@hotmail.com
+        emailCanonical: -
+        username: julianna_dalma@hotmail.com
+        usernameCanonical: -
+        isEnabled: 1
+        plainPassword: juju89
+        password: -
+        roles: [ROLE_USER]
