@@ -3,14 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Form\Type\SecurityLoginType;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends Controller
+class SecurityController extends BaseController
 {
     /**
      * @var AuthenticationUtils
@@ -53,9 +52,7 @@ class SecurityController extends Controller
         $lastError = $this->authenticationUtils->getLastAuthenticationError();
         $lastUsername = $this->authenticationUtils->getLastUsername();
 
-        $options = $request->attributes->get('_app_options');
-
-        $template = $options['template'];
+        $template = $this->getAppAttibute($request, 'template');
         $formType = SecurityLoginType::class;
         $form = $this->formFactory->createNamed('', $formType);
         

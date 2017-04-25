@@ -6,6 +6,10 @@ shop:
     resource: '@AppBundle/Controller/Shop'
     type: annotation
 
+shop_account:
+    resource: '@AppBundle/Controller/Shop/Account'
+    prefix: /account
+
 shop_security:
     resource: "shop/routing_security.yml"
 

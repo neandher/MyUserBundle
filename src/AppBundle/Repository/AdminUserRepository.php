@@ -19,4 +19,15 @@ class AdminUserRepository extends EntityRepository implements UserRepositoryInte
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneByConfirmationToken($token)
+    {
+        return $this->createQueryBuilder('o')
+            ->andWhere('o.confirmationToken = :token')->setParameter('token', $token)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -284,4 +284,13 @@ interface UserInterface extends AdvancedUserInterface
      * @return bool
      */
     public function isPasswordRequestNonExpired($ttl);
+
+    /**
+     * Get the truncated email
+     *
+     * The default implementation only keeps the part following @ in the address.
+     *
+     * @return string
+     */
+    public function getObfuscatedEmail();
 }

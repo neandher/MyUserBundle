@@ -15,13 +15,13 @@ class SecurityLoginType extends AbstractType
     {
         $builder
             ->add('_username', TextType::class, [
-                'label' => 'Login',
+                'label' => 'security.login.fields.email',
             ])
             ->add('_password', PasswordType::class, [
-                'label' => 'Senha',
+                'label' => 'security.login.fields.password',
             ])
             ->add('_remember_me', CheckboxType::class, [
-                'label' => 'Lembrar-me',
+                'label' => 'security.login.fields.remember_me',
                 'required' => false,
             ]);
     }

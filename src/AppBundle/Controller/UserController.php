@@ -2,12 +2,28 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Event\FlashBagEvents;
+use AppBundle\Event\UserEvents;
+use AppBundle\Form\Type\ChangePasswordType;
+use AppBundle\Form\Type\ResettingRequestType;
+use AppBundle\Form\Type\ResettingResetType;
+use AppBundle\Model\UserInterface;
+use AppBundle\Repository\UserRepositoryInterface;
+use AppBundle\Util\FlashBag;
+use AppBundle\Util\TokenGenerator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Translation\Translator;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * @var FormFactoryInterface
@@ -19,106 +35,209 @@ class UserController extends Controller
      */
     private $templatingEngine;
 
-    /**     
+    /**
+     * @var UserRepositoryInterface
+     */
+    private $userRepository;
+
+    /**
+     * @var TokenGenerator
+     */
+    private $tokenGenerator;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+    /**
+     * @var Translator
+     */
+    private $translator;
+
+    /**
+     * @var string
+     */
+    private $tokenTTL;
+
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    /**
+     * @var FlashBag
+     */
+    private $flashBag;
+
+    /**
+     * @var TokenStorageInterface
+     */
+    private $tokenStorage;
+
+    /**
      * @param FormFactoryInterface $formFactory
      * @param EngineInterface $templatingEngine
+     * @param UserRepositoryInterface $userRepository
+     * @param TokenGenerator $tokenGenerator
+     * @param EventDispatcherInterface $eventDispatcher
+     * @param EntityManagerInterface $em
+     * @param Translator $translator
+     * @param $tokenTTL
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param FlashBag $flashBag
+     * @param TokenStorageInterface $tokenStorage
      */
     public function __construct(
         FormFactoryInterface $formFactory,
-        EngineInterface $templatingEngine
+        EngineInterface $templatingEngine,
+        UserRepositoryInterface $userRepository,
+        TokenGenerator $tokenGenerator,
+        EventDispatcherInterface $eventDispatcher,
+        EntityManagerInterface $em,
+        Translator $translator,
+        $tokenTTL,
+        UrlGeneratorInterface $urlGenerator,
+        FlashBag $flashBag,
+        TokenStorageInterface $tokenStorage
     )
     {
         $this->formFactory = $formFactory;
         $this->templatingEngine = $templatingEngine;
+        $this->userRepository = $userRepository;
+        $this->tokenGenerator = $tokenGenerator;
+        $this->eventDispatcher = $eventDispatcher;
+        $this->em = $em;
+        $this->translator = $translator;
+        $this->tokenTTL = $tokenTTL;
+        $this->urlGenerator = $urlGenerator;
+        $this->flashBag = $flashBag;
+        $this->tokenStorage = $tokenStorage;
     }
-    
-//    /**
-//     * @Route("/resetting/request", name="admin_security_resetting_request")
-//     * @Method({"GET", "POST"})
-//     *
-//     * @param Request $request
-//     * @return mixed
-//     */
+
     public function resettingRequestAction(Request $request)
     {
-        /*$form = $this->createForm(ResettingRequestType::class);
+        $formType = $this->getAppAttibute($request, 'form', ResettingRequestType::class);
+        $form = $this->formFactory->create($formType);
 
-        $formHandler = $this->get('app.admin_resetting_request_form_handler');
+        $form->handleRequest($request);
 
-        if ($formHandler->handle($form, $request)) {
-            return $this->redirectToRoute('admin_security_login');
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $data = $form->getData();
+
+            /** @var UserInterface $user */
+            $user = $this->userRepository->findOneByEmail($data['email']);
+
+            if (!$user) {
+                $form->addError(
+                    new FormError($this->translator->trans('security.resetting.request.errors.email_not_found'))
+                );
+            } else if ($user->isPasswordRequestNonExpired($this->tokenTTL)) {
+                $form->addError(
+                    new FormError(
+                        $this->translator->trans('security.resetting.request.errors.password_already_requested')
+                    )
+                );
+            }
+
+            if (!($form->getErrors()->count() > 0)) {
+
+                if ($user->getConfirmationToken() === null) {
+                    $user->setConfirmationToken($this->tokenGenerator->generateToken());
+                }
+
+                $user->setPasswordRequestedAt(new \DateTime());
+
+                $event = new GenericEvent($user);
+                $event->setArgument('email_params', $this->getAppAttibute($request, 'email_params'));
+
+                $this->eventDispatcher->dispatch(UserEvents::RESETTING_REQUEST_SUCCESS, $event);
+
+                $this->em->persist($user);
+                $this->em->flush();
+
+                return new RedirectResponse($this->urlGenerator->generate($this->getAppAttibute($request, 'redirect')));
+            }
         }
 
-        return $this->render(
-            'admin/security/resetting/resettingRequest.html.twig',
-            ['form' => $form->createView()]
-        );*/
+        return $this->templatingEngine->renderResponse($this->getAppAttibute($request, 'template'), [
+                'form' => $form->createView()
+            ]
+        );
     }
 
-//    /**
-//     * @Route("/resetting/reset/{token}", name="admin_security_resetting_reset")
-//     * @Method({"GET", "POST"})
-//     *
-//     * @param Request $request
-//     * @param $token
-//     * @return mixed
-//     */
     public function resettingResetAction(Request $request, $token)
     {
-        /*$manager = $this->get('app.admin_profile_manager');
-        $params = $this->get('app.helper.parameters')->getParams('admin');
+        $event = new GenericEvent();
+        $event
+            ->setArgument('request', $request)
+            ->setArgument('repository', $this->userRepository)
+            ->setArgument('tokenTTL', $this->tokenTTL);
 
-        $event = new ProfileEvent(null, $manager, $request);
-        $event->setParams($params['security']['resetting']);
+        $this->eventDispatcher->dispatch(UserEvents::RESETTING_RESET_INITIALIZE, $event);
 
-        $dispatcher = $this->get('event_dispatcher')->dispatch(
-            ProfileEvents::RESETTING_RESET_INITIALIZE,
-            $event
-        );
+        $redirectRouteName = $this->getAppAttibute($request, 'redirect');
 
         if ($request->attributes->has('error')) {
-            return $this->redirectToRoute('admin_security_login');
+            return new RedirectResponse($this->urlGenerator->generate($redirectRouteName));
         }
 
-        $form = $this->createForm(ResettingResetType::class, $dispatcher->getProfile());
+        /** @var UserInterface $user */
+        $user = $event->getArgument('user');
 
-        $formHandler = $this->get('app.admin_resetting_reset_form_handler');
+        $form = $this->formFactory->create(ResettingResetType::class, $user);
 
-        if ($formHandler->handle($form, $request)) {
-            return $this->redirectToRoute('admin_security_login');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->eventDispatcher->dispatch(UserEvents::RESETTING_RESET_SUCCESS, $event);
+
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->flashBag->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, 'security.resetting.reset.success');
+
+            return new RedirectResponse($this->urlGenerator->generate($redirectRouteName));
         }
 
-        return $this->render(
-            'admin/security/resetting/resettingReset.html.twig',
-            [
-                'form'  => $form->createView(),
+        return $this->templatingEngine->renderResponse($this->getAppAttibute($request, 'template'), [
+                'form' => $form->createView(),
                 'token' => $token
             ]
-        );*/
+        );
     }
 
-//    /**
-//     * @Route("/change-password", name="admin_security_change_password")
-//     * @Method({"GET", "POST"})
-//     *
-//     * @param Request $request
-//     * @return mixed
-//     */
     public function changePassword(Request $request)
     {
-        /*$adminProfile = $this->getUser()->getAdminProfile();
+        /** @var UserInterface $user */
+        $user = $this->tokenStorage->getToken()->getUser();
 
-        $form = $this->createForm(ChangePasswordType::class, $adminProfile);
+        $form = $this->formFactory->create(ChangePasswordType::class, $user);
 
-        $formHandle = $this->get('app.admin_change_password_form_handler');
+        $form->handleRequest($request);
 
-        if ($formHandle->handle($form, $request)) {
-            return $this->redirectToRoute('admin_security_change_password');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->setPassword(null);
+
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->flashBag->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, 'security.change_password.success');
+
+            $redirectRouteName = $this->getAppAttibute($request, 'redirect');
+
+            return new RedirectResponse($this->urlGenerator->generate($redirectRouteName));
         }
 
-        return $this->render(
-            'admin/security/changePassword/changePassword.html.twig',
-            ['form' => $form->createView()]
-        );*/
+        return $this->templatingEngine->renderResponse($this->getAppAttibute($request, 'template'), [
+                'form' => $form->createView(),
+            ]
+        );
     }
 }

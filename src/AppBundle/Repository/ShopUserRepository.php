@@ -11,12 +11,29 @@ use Doctrine\ORM\EntityRepository;
  */
 class ShopUserRepository extends EntityRepository implements UserRepositoryInterface
 {
+    /**
+     * {@inheritdoc}
+     */
     public function findOneByEmail($email)
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.customer', 'customer')
+            ->addSelect('customer')
             ->andWhere('customer.emailCanonical = :email')
             ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findOneByConfirmationToken($token)
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.customer', 'customer')
+            ->addSelect('customer')
+            ->andWhere('o.confirmationToken = :token')->setParameter('token', $token)
             ->getQuery()
             ->getOneOrNullResult();
     }

@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Class User
  *
- * @ORM\MappedSuperclass(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\MappedSuperclass()
  */
 class User implements UserInterface
 {
@@ -24,7 +24,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     /**
      * @var string
      *
@@ -529,5 +529,19 @@ class User implements UserInterface
     {
         return $this->getPasswordRequestedAt() instanceof \DateTime &&
         $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getObfuscatedEmail()
+    {
+        $email = $this->getEmail();
+        
+        if (false !== $pos = strpos($email, '@')) {
+            $email = '...' . substr($email, $pos);
+        }
+
+        return $email;
     }
 }

@@ -12,4 +12,11 @@ interface UserRepositoryInterface
      * @return UserInterface|null
      */
     public function findOneByEmail($email);
+
+    /**
+     * @param $token
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findOneByConfirmationToken($token);
 }

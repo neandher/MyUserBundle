@@ -2,7 +2,7 @@
 
 {% block body %}
 
-    <h3>Login</h3>
+    <h3>Shop Login</h3>
 
     {{ form_start(form, { 'action': path('shop_login_check') }) }}
 
@@ -11,20 +11,14 @@
 
             {{ include('_partials/_alerts.html.twig') }}
 
-            <div class="row">
-                {{ form_row(form._username, {'attr':{'value': last_username }}) }}
-            </div>
-            <div class="row">
-                {{ form_row(form._password) }}
-            </div>
-            <div class="row">
-                {{ form_row(form._remember_me) }}
-            </div>
+            {{ form_row(form._username, {'attr':{'value': last_username }}) }}
+            {{ form_row(form._password) }}
+            {{ form_row(form._remember_me) }}
 
             <div class="row">
                 <div class="form-group col-md-6">
-                    <button class="btn btn-primary">Login</button>
-                    <a class="pull-right" href="#">
+                    <button class="btn btn-primary">{{ 'security.login.btns.login'|trans }}</button>
+                    <a class="pull-right" href="{{ path('shop_resetting_request') }}">
                         Esqueci minha senha
                     </a>
                 </div>
