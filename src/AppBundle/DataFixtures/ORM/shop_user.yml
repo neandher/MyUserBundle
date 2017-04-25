@@ -3,6 +3,10 @@ AppBundle\Entity\Customer:
         firstName: Julianna
         lastName: Dalma
         gender: f
+    customer_2:
+        firstName: Eliana
+        lastName: Santos
+        gender: f
 
 AppBundle\Entity\ShopUser:
     shop_user_1:
@@ -13,5 +17,16 @@ AppBundle\Entity\ShopUser:
         usernameCanonical: -
         isEnabled: 1
         plainPassword: juju89
+        password: -
+        roles: [ROLE_USER]
+
+    shop_user_2:
+        customer: '@customer_2'
+        email: eliana.santos@hotmail.com
+        emailCanonical: -
+        username: eliana.santos@hotmail.com
+        usernameCanonical: -
+        isEnabled: 1
+        plainPassword: eliana89
         password: -
         roles: [ROLE_USER]

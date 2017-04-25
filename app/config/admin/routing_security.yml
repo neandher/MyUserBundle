@@ -15,3 +15,37 @@ admin_login_check:
 admin_logout:
     path: /logout
     methods: [GET]
+    
+admin_resetting_request:
+    path: /resetting/request
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.admin_user:resettingRequestAction
+        _app_options:
+            template: "admin/resetting/resettingRequest.html.twig"
+            redirect: admin_login
+            email_params: {from: "%admin_resetting_email.from%", route: "%admin_resetting_email.route%", template: "%admin_resetting_email.template%"}
+
+admin_resetting_reset:
+    path: /resetting/reset/{token}
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.admin_user:resettingResetAction
+        _app_options:
+            template: "admin/resetting/resettingReset.html.twig"
+            redirect: admin_login
+
+admin_change_password:
+    path: /change-password
+    methods: [GET, POST]
+    defaults:
+        _controller: app.controller.admin_user:changePassword
+        _app_options:
+            template: "admin/changePassword/changePassword.html.twig"
+            redirect: admin_dashboard
+
+admin_impersonate_user:
+    path: /impersonate/{username}
+    defaults:
+        _controller: 'app.controller.impersonate_user:impersonateAction'
+        username: $username

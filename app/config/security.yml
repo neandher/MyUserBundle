@@ -74,6 +74,7 @@ security:
 
     access_control:
         - { path: "%app.security.admin_regex%/login", role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "%app.security.admin_regex%/resetting", role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "%app.security.admin_regex%", role: ROLE_ADMINISTRATION_ACCESS }
 
         - { path: "%app.security.shop_regex%account", role: ROLE_USER }

@@ -58,6 +58,10 @@ security:
         btns:
             submit: Alterar Senha
 
+    customer:
+        impersonate: Successfully impersonated customer %name%
+
+
 ######################## DEFAULT ############################
 
 flashbag:

@@ -1,0 +1,30 @@
+
+services:
+
+    app.shop_user_repository:
+        class:  Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - AppBundle\Entity\ShopUser
+
+    app.shop_user_provider.email_or_name_based:
+        class: AppBundle\Provider\UsernameOrEmailProvider
+        arguments:
+            - 'AppBundle\Entity\ShopUser'
+            - '@app.shop_user_repository'
+            - '@app.canonicalizer'
+
+    app.controller.shop_user:
+        class: AppBundle\Controller\UserController
+        arguments:
+            - '@form.factory'
+            - '@templating'
+            - '@app.shop_user_repository'
+            - '@app.util.token_generator'
+            - '@event_dispatcher'
+            - '@doctrine.orm.entity_manager'
+            - '@translator.default'
+            - '%token_ttl%'
+            - '@router.default'
+            - '@app.util.flash_bag'
+            - '@security.token_storage'

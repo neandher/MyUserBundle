@@ -61,4 +61,12 @@ class AdminUser extends BaseUser implements AdminUserInterface
         $this->lastName = $lastName;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getFullName()
+    {
+        return trim(sprintf('%s %s', $this->firstName, $this->lastName));
+    }
 }

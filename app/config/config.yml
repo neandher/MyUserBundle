@@ -2,15 +2,22 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
+    - { resource: shop/services.yml }
+    - { resource: admin/services.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: pt_BR
     token_ttl: 86400
+
     shop_resetting_email.from: "noreply@dev.com"
     shop_resetting_email.template: "shop/account/resetting/email.txt.twig"
     shop_resetting_email.route: "shop_resetting_reset"
+
+    admin_resetting_email.from: "noreply@dev.com"
+    admin_resetting_email.template: "admin/resetting/email.txt.twig"
+    admin_resetting_email.route: "admin_resetting_reset"
 
 framework:
     #esi: ~
