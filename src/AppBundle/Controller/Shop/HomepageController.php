@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class HomepageController extends Controller
 {
     /**
+     * @Route("/", name="shop_index")
      * @Route("/homepage", name="shop_homepage")
      */
     public function indexAction()

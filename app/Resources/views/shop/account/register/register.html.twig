@@ -1,0 +1,52 @@
+{% extends 'shop/base.html.twig' %}
+
+{% block body %}
+    <div class="panel panel-default">
+
+    <div class="panel-heading">
+        <h2><i class="glyphicon glyphicon-list-alt"></i> {{ 'shop.register.new'|trans }}</h2>
+    </div>
+
+    <div class="panel-body">
+
+        {{ include('_partials/_alerts.html.twig') }}
+
+        {{ form_start(form, { 'action': path('shop_register'), 'attr': {'novalidate': 'novalidate'} }) }}
+
+        {{ form_errors(form) }}
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ 'shop.register.personal_information'|trans }}
+            </div>
+            <div class="panel-body">
+                {{ form_row(form.firstName) }}
+                {{ form_row(form.lastName) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.phoneNumber) }}
+                {{ form_row(form.isSubscribedToNewsletter) }}
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ 'shop.register.account_credentials'|trans }}
+            </div>
+            <div class="panel-body">
+                {{ form_row(form.shopUser.plainPassword.first) }}
+                {{ form_row(form.shopUser.plainPassword.second) }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <button class="btn btn-primary">{{ 'shop.register.btn_create'|trans }}</button>
+            </div>
+        </div>
+
+        {{ form_widget(form._token) }}
+
+        {{ form_end(form, {'render_rest': false}) }}
+
+    </div>
+{% endblock %}

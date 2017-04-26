@@ -15,6 +15,11 @@ parameters:
     shop_resetting_email.template: "shop/account/resetting/email.txt.twig"
     shop_resetting_email.route: "shop_resetting_reset"
 
+    shop_register_email:
+        from: "noreply@dev.com"
+        template: "shop/account/register/email.txt.twig"
+        route: "shop_register_confirm"
+
     admin_resetting_email.from: "noreply@dev.com"
     admin_resetting_email.template: "admin/resetting/email.txt.twig"
     admin_resetting_email.route: "admin_resetting_reset"

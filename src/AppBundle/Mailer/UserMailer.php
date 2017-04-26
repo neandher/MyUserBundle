@@ -34,12 +34,30 @@ class UserMailer
         $this->twig = $twig;
     }
 
+//    /**
+//     * @param UserInterface $user
+//     * @param $params
+//     * @return int
+//     */
+//    public function sendResettingEmailMessage(UserInterface $user, $params)
+//    {
+//        $url = $this->router->generate(
+//            $params['route'],
+//            array('token' => $user->getConfirmationToken()),
+//            UrlGeneratorInterface::ABSOLUTE_URL
+//        );
+//
+//        $context = ['user' => $user, 'url' => $url];
+//
+//        return $this->sendMessage($params['template'], $context, $params['from'], $user->getEmail());
+//    }
+
     /**
      * @param UserInterface $user
      * @param $params
      * @return int
      */
-    public function sendResettingEmailMessage(UserInterface $user, $params)
+    public function sendLinkWithTokenEmailMessage(UserInterface $user, $params)
     {
         $url = $this->router->generate(
             $params['route'],

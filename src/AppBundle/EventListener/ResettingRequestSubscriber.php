@@ -49,7 +49,7 @@ class ResettingRequestSubscriber implements EventSubscriberInterface
         $user = $event->getSubject();
         $email_params = $event->getArgument('email_params');
 
-        $this->mailer->sendResettingEmailMessage($user, $email_params);
+        $this->mailer->sendLinkWithTokenEmailMessage($user, $email_params);
 
         $this->flashBagHelper->newMessage(
             FlashBagEvents::MESSAGE_TYPE_SUCCESS,

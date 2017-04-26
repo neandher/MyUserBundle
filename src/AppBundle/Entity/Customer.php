@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CustomerRepository")
- * @UniqueEntity(fields={"email","emailCanonical"}, message="Email já cadastrado!")
+ * @UniqueEntity(fields={"email","emailCanonical"}, message="Email jÃ¡ cadastrado!")
  */
 class Customer
 {
@@ -35,6 +35,8 @@ class Customer
      * @var string
      *
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -49,6 +51,7 @@ class Customer
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $firstName;
 
@@ -56,6 +59,7 @@ class Customer
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $lastName;
 
@@ -71,7 +75,7 @@ class Customer
      *
      * @ORM\Column(type="string", length=1, options={"default": "u"})
      */
-    private $gender;
+    private $gender = self::UNKNOWN_GENDER;
 
     /**
      * @var string
@@ -91,6 +95,7 @@ class Customer
      * @var ShopUser
      *
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\ShopUser", mappedBy="customer", cascade={"all"})
+     * @Assert\Valid()
      */
     protected $shopUser;
 
@@ -334,8 +339,22 @@ class Customer
      */
     public function setShopUser($shopUser)
     {
-        $this->shopUser = $shopUser;
+        if ($this->shopUser !== $shopUser) {
+            $this->shopUser = $shopUser;
+            $this->assignCustomer($shopUser);
+        }
+        //$this->shopUser = $shopUser;
         return $this;
+    }
+
+    /**
+     * @param ShopUser|null $shopUser
+     */
+    protected function assignCustomer(ShopUser $shopUser = null)
+    {
+        if (null !== $shopUser) {
+            $shopUser->setCustomer($this);
+        }
     }
 }
 

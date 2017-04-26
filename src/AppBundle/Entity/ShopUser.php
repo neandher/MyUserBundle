@@ -38,7 +38,7 @@ class ShopUser extends BaseUser implements ShopUserInterface
     {
         if ($this->customer != $customer) {
             $this->customer = $customer;
-            $this->assignUser($customer);
+            $this->assignShopUser($customer);
             return $this;
         }
     }
@@ -66,7 +66,7 @@ class ShopUser extends BaseUser implements ShopUserInterface
     /**
      * @param Customer $customer
      */
-    protected function assignUser($customer = null)
+    protected function assignShopUser($customer = null)
     {
         if (null !== $customer) {
             $customer->setShopUser($this);

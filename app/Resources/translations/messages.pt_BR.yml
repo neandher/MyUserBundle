@@ -39,7 +39,7 @@ security:
         reset:
             title: Resetar Senha
             fields:
-                new_password: Nova Senha
+                new_password: Senha
                 confirm_password: Confirme a Senha
             btns:
                 send: Alterar Senha
@@ -98,26 +98,38 @@ action:
 user:
     is_enabled: Usuário Ativo
 
-######################## ADMIN ##############################
-admin:
+######################## ---- ##############################
+customers:
 
-    menu:
-        logout: Sair
+    title: Clientes
+    new: Novo Cliente
+    edit: Editar Cliente
+    not_found: Nenhum cliente encontrado
+    fields:
+        full_name: Nome Completo
+        first_name: Primeiro Nome
+        last_name: Sobrenome
+        email: E-mail
+        password: Senha
+        phone_number: Telefone
+        subscribed_to_newsletter: Receber novidades
+        last_login: Último Login
+        created_at: Data Criação
 
-    profile_admin:
-        title:
-            list: Lista de Perfis
-            new: Novo Perfil
-            edit: Editar Perfil
-            me_edit: Meu Perfil
-        fields:
-            full_name: Nome Completo
-            first_name: Primeiro Nome
-            last_name: Sobrenome
-            email: E-mail
-            password: Senha
-            last_login: Último Login
-            created_at: Data Criação
-        action:
-            new_profile: Novo Perfil
-        not_found: Nenhum perfil encontrado
+shop:
+    register:
+        new: Criar uma conta
+        btn_create: Criar conta
+        personal_information: Informações Pessoais
+        account_credentials: Senha de acesso
+        success_flash: Seu cadastro foi efetuado com sucesso. Acesse seu e-mail para confirmar seu cadastro.
+        email:
+            subject: Confirmação de Cadastro
+            message: |
+                Olá, %full_name%!
+
+                Para confirmar sua conta, clique no link: %url%
+
+                Atenciosamente,
+                a Equipe.
+

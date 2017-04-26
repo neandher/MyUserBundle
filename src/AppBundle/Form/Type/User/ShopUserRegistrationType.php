@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\Form\Type;
+namespace AppBundle\Form\Type\User;
 
-use AppBundle\Model\UserInterface;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use AppBundle\Entity\ShopUser;
+use AppBundle\Form\Type\PlainPasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends PlainPasswordType
+class ShopUserRegistrationType extends PlainPasswordType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,13 +15,7 @@ class UserType extends PlainPasswordType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('isEnabled', CheckboxType::class, ['required' => false, 'label' => 'user.is_enabled']);
-
-        if (!$options['is_edit']) {
-
-            parent::buildForm($builder,$options);
-        }
+        parent::buildForm($builder, $options);
     }
 
     /**
@@ -31,8 +25,7 @@ class UserType extends PlainPasswordType
     {
         $resolver->setDefaults(
             [
-                'data_class' => UserInterface::class,
-                'is_edit'    => false,
+                'data_class' => ShopUser::class,
             ]
         );
     }

@@ -1,0 +1,11 @@
+{% block subject %}
+{% autoescape false %}
+{{ 'shop.register.email.subject'|trans }}
+{% endautoescape %}
+{% endblock %}
+{% block body_text %}
+{% autoescape false %}
+{{ 'shop.register.email.message'|trans({'%full_name%': user.getCustomer.getFullName(), '%url%': url}) }}
+{% endautoescape %}
+{% endblock %}
+{% block body_html %}{% endblock %}
