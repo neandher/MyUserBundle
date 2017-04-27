@@ -132,4 +132,6 @@ shop:
 
                 Atenciosamente,
                 a Equipe.
+        invalid_token: Token Inválido
+        confirmed: Parabéns, %username%. A sua conta foi ativada.
 

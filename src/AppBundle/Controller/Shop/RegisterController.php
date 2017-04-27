@@ -4,6 +4,7 @@ namespace AppBundle\Controller\Shop;
 
 use AppBundle\Controller\BaseController;
 use AppBundle\Entity\Customer;
+use AppBundle\Entity\ShopUser;
 use AppBundle\Event\FlashBagEvents;
 use AppBundle\Event\UserEvents;
 use AppBundle\Form\Type\Customer\CustomerRegistrationType;
@@ -61,10 +62,38 @@ class RegisterController extends BaseController
      * @param Request $request
      * @param $token
      *
-     * @Route("/confirm", name="shop_register_confirm")
+     * @Route("/confirm/{token}", name="shop_register_confirm")
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function confirmAction(Request $request, $token)
     {
+        /** @var ShopUser $shopUser */
+        $shopUser = $this->getDoctrine()->getRepository(ShopUser::class)->findOneByConfirmationToken($token);
 
+        if (!$shopUser) {
+            $this->get('app.util.flash_bag')->newMessage(
+                FlashBagEvents::MESSAGE_TYPE_ERROR,
+                'shop.register.invalid_token'
+            );
+
+            return $this->redirectToRoute('shop_index');
+        }
+
+        $shopUser->setConfirmationToken(null)
+            ->setIsEnabled(true);
+
+        $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_CONFIRMED, new GenericEvent($shopUser));
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($shopUser->getCustomer());
+        //$em->flush();
+
+        $this->get('app.util.flash_bag')->newMessage(
+            FlashBagEvents::MESSAGE_TYPE_SUCCESS,
+            'shop.register.confirmed',
+            ['username' => $shopUser->getCustomer()->getFullName()]
+        );
+
+        return $this->redirectToRoute('shop_account_dashboard');
     }
 }

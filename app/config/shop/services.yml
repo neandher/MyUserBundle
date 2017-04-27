@@ -34,3 +34,7 @@ services:
         autowire: true
         tags:
             - { name: kernel.event_subscriber }
+
+    app.shop_authentication_subscriber:
+        class: AppBundle\EventListener\AuthenticationSubscriber
+        arguments: ['@app.login_manager', '_security_shop']

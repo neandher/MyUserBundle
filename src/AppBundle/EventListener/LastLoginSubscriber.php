@@ -2,9 +2,11 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Event\UserEvents;
 use AppBundle\Model\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
@@ -24,19 +26,35 @@ class LastLoginSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin'
+            SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin',
+            UserEvents::SECURITY_IMPLICIT_LOGIN => 'onSecurityInteractiveLogin'
         );
     }
 
     public function onInteractiveLogin(InteractiveLoginEvent $event)
     {
         $user = $event->getAuthenticationToken()->getUser();
+        $this->updateUserLastLogin($user);
+    }
 
-        if( $user instanceof UserInterface ){
+    /**
+     * @param GenericEvent $event
+     */
+    public function onSecurityInteractiveLogin(GenericEvent $event)
+    {
+        $user = $event->getSubject();
+        $this->updateUserLastLogin($user);
+    }
+
+    /**
+     * @param UserInterface $user
+     */
+    protected function updateUserLastLogin(UserInterface $user)
+    {
+        if ($user instanceof UserInterface) {
             $user->setLastLoginAt(new \DateTime());
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }
     }
-
 }

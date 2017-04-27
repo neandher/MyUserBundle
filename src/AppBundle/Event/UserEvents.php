@@ -9,6 +9,9 @@ class UserEvents
     const RESETTING_RESET_SUCCESS = 'user.resetting.reset.success';
 
     const REGISTRATION_SUCCESS = 'user.register.success';
-
+    const REGISTRATION_CONFIRMED = 'user.registration.confirmed';
+    
     const CREATE_SUCCESS = 'user.create.success';
+
+    const SECURITY_IMPLICIT_LOGIN = 'user.security.implicit_login';
 }
