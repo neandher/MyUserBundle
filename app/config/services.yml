@@ -57,3 +57,7 @@ services:
     app.login_manager:
         class: AppBundle\Security\LoginManager
         autowire: true
+
+    app.util.pagination:
+        class: AppBundle\Util\Pagination
+        autowire: true

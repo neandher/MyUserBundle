@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
  * Class DashboardController
  * @package AppBundle\Controller\Admin
  *
- * @Route("/admin")
+ * @Route("/")
  */
 class DashboardController extends Controller
 {

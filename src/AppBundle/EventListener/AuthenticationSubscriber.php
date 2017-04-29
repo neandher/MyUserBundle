@@ -40,6 +40,7 @@ class AuthenticationSubscriber implements EventSubscriberInterface
     {
         return array(
             UserEvents::REGISTRATION_CONFIRMED => 'authenticate',
+            UserEvents::RESETTING_RESET_COMPLETED => 'authenticate'
         );
     }
 
@@ -51,7 +52,6 @@ class AuthenticationSubscriber implements EventSubscriberInterface
     public function authenticate(GenericEvent $event, $eventName, EventDispatcherInterface $eventDispatcher)
     {
         try {
-
             $this->loginManager->logInUser($this->firewallName, $event->getSubject());
 
             $eventDispatcher->dispatch(

@@ -82,11 +82,11 @@ class RegisterController extends BaseController
         $shopUser->setConfirmationToken(null)
             ->setIsEnabled(true);
 
-        $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_CONFIRMED, new GenericEvent($shopUser));
-
         $em = $this->getDoctrine()->getManager();
         $em->persist($shopUser->getCustomer());
-        //$em->flush();
+        $em->flush();
+
+        $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_CONFIRMED, new GenericEvent($shopUser));
 
         $this->get('app.util.flash_bag')->newMessage(
             FlashBagEvents::MESSAGE_TYPE_SUCCESS,

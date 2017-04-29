@@ -100,7 +100,6 @@ user:
 
 ######################## ---- ##############################
 customers:
-
     title: Clientes
     new: Novo Cliente
     edit: Editar Cliente
@@ -133,5 +132,5 @@ shop:
                 Atenciosamente,
                 a Equipe.
         invalid_token: Token Inválido
-        confirmed: Parabéns, %username%. A sua conta foi ativada.
+        confirmed: Parabéns, username. A sua conta foi ativada.
 

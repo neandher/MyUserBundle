@@ -18,7 +18,8 @@
             {% if app.user %}
 
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Home</a></li>
+                    <li><a href="{{ path('admin_index') }}">Home</a></li>
+                    <li><a href="{{ path('admin_user_index') }}">Usuários</a></li>
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">

@@ -68,6 +68,7 @@ class LoginManager
     {
         $this->userChecker->checkPreAuth($user);
         $token = $this->createToken($firewallName, $user);
+
         $request = $this->requestStack->getCurrentRequest();
 
         if (null !== $request) {
@@ -88,6 +89,6 @@ class LoginManager
      */
     protected function createToken($firewall, UserInterface $user)
     {
-        return new UsernamePasswordToken($user, null, $firewall, $user->getRoles());
+        return new UsernamePasswordToken($user, $user->getPassword(), $firewall, $user->getRoles());
     }
 }

@@ -32,8 +32,9 @@ class UserImpersonator
 
     public function impersonate(UserInterface $user)
     {
+        
         $token = new UsernamePasswordToken($user, $user->getPassword(), $this->sessionTokenParameter, $user->getRoles());
-
+        
         $this->session->set($this->sessionTokenParameter, serialize($token));
         $this->session->save();
     }

@@ -33,7 +33,7 @@ shop_resetting_reset:
         _controller: app.controller.shop_user:resettingResetAction
         _app_options:
             template: "shop/account/resetting/resettingReset.html.twig"
-            redirect: shop_login
+            redirect: shop_account_dashboard
 
 shop_change_password:
     path: /change-password

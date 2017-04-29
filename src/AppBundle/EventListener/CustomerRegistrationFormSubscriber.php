@@ -57,8 +57,7 @@ class CustomerRegistrationFormSubscriber implements EventSubscriberInterface
         if (!$data instanceof Customer) {
             throw new UnexpectedTypeException($data, Customer::class);
         }
-
-        // if email is not filled in, go on
+        
         if (!isset($rawData['email']) || empty($rawData['email'])) {
             return;
         }

@@ -37,4 +37,6 @@ services:
 
     app.shop_authentication_subscriber:
         class: AppBundle\EventListener\AuthenticationSubscriber
-        arguments: ['@app.login_manager', '_security_shop']
+        arguments: ['@app.login_manager', 'shop']
+        tags:
+            - { name: kernel.event_subscriber}

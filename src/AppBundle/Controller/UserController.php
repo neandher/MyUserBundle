@@ -118,7 +118,7 @@ class UserController extends BaseController
         $this->flashBag = $flashBag;
         $this->tokenStorage = $tokenStorage;
     }
-
+    
     public function resettingRequestAction(Request $request)
     {
         $formType = $this->getAppAttibute($request, 'form', ResettingRequestType::class);
@@ -202,6 +202,8 @@ class UserController extends BaseController
             $this->em->flush();
 
             $this->flashBag->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, 'security.resetting.reset.success');
+
+            $this->eventDispatcher->dispatch(UserEvents::RESETTING_RESET_COMPLETED, new GenericEvent($user));
 
             return new RedirectResponse($this->urlGenerator->generate($redirectRouteName));
         }

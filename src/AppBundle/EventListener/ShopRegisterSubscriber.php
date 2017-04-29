@@ -76,6 +76,7 @@ class ShopRegisterSubscriber implements EventSubscriberInterface
 
         $customer->getShopUser()->setIsEnabled(false);
         $customer->getShopUser()->setUsername($customer->getEmail());
+        $customer->getShopUser()->setRoles(['ROLE_USER']);
 
         if (null === $customer->getShopUser()->getConfirmationToken()) {
             $customer->getShopUser()->setConfirmationToken($this->tokenGenerator->generateToken());
