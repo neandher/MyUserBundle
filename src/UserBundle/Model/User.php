@@ -509,14 +509,6 @@ class User implements UserInterface
     /**
      * {@inheritdoc}
      */
-    public function isEnabled()
-    {
-        return $this->isEnabled;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function eraseCredentials()
     {
         $this->plainPassword = null;

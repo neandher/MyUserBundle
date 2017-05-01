@@ -2,17 +2,19 @@
 
 namespace UserBundle\Model;
 
+use AppBundle\Resource\Model\TimestampableInterface;
+use AppBundle\Resource\Model\ToggleableInterface;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 
-interface UserInterface extends AdvancedUserInterface
+interface UserInterface extends AdvancedUserInterface, ToggleableInterface, TimestampableInterface
 {
 
     /**
      * @return integer
      */
     public function getId();
-    
+
     /**
      * @param string $username
      * @return User

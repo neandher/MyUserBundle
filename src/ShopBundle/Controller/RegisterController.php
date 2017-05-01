@@ -36,7 +36,7 @@ class RegisterController extends BaseController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $event = new GenericEvent($customer);
+            $event = new GenericEvent($customer->getShopUser());
             $event->setArgument('email_params', $this->getParameter('shop_register_email'));
 
             $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, $event);

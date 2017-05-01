@@ -6,6 +6,7 @@ use ShopBundle\Entity\Customer;
 use UserBundle\Event\UserEvents;
 use UserBundle\Mailer\UserMailer;
 use AppBundle\Util\FlashBag;
+use UserBundle\Model\UserInterface;
 use UserBundle\Security\TokenGenerator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -71,19 +72,19 @@ class ShopRegisterSubscriber implements EventSubscriberInterface
 
     public function onRegistrationSuccess(GenericEvent $event)
     {
-        /** @var Customer $customer */
-        $customer = $event->getSubject();
+        /** @var UserInterface $user */
+        $user = $event->getSubject();
 
-        $customer->getShopUser()->setIsEnabled(false);
-        $customer->getShopUser()->setUsername($customer->getEmail());
-        $customer->getShopUser()->setRoles(['ROLE_USER']);
+        $user->setIsEnabled(false);
+        $user->setUsername($user->getEmail());
+        $user->setRoles(['ROLE_USER']);
 
-        if (null === $customer->getShopUser()->getConfirmationToken()) {
-            $customer->getShopUser()->setConfirmationToken($this->tokenGenerator->generateToken());
+        if (null === $user->getConfirmationToken()) {
+            $user->setConfirmationToken($this->tokenGenerator->generateToken());
         }
 
         $email_params = $event->getArgument('email_params');
 
-        $this->mailer->sendLinkWithTokenEmailMessage($customer->getShopUser(), $email_params);
+        $this->mailer->sendLinkWithTokenEmailMessage($user, $email_params);
     }
 }
