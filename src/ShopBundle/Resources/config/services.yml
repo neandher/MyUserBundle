@@ -1,0 +1,41 @@
+services:
+
+    app.shop_user_repository:
+        class:  Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - ShopBundle\Entity\ShopUser
+
+    app.shop_user_provider.email_or_name_based:
+        class: UserBundle\Provider\UsernameOrEmailProvider
+        arguments:
+            - 'ShopBundle\Entity\ShopUser'
+            - '@app.shop_user_repository'
+            - '@app.canonicalizer'
+
+    app.controller.shop_user:
+        class: UserBundle\Controller\UserController
+        arguments:
+            - '@form.factory'
+            - '@templating'
+            - '@app.shop_user_repository'
+            - '@app.user.token_generator'
+            - '@event_dispatcher'
+            - '@doctrine.orm.entity_manager'
+            - '@translator.default'
+            - '%token_ttl%'
+            - '@router.default'
+            - '@app.util.flash_bag'
+            - '@security.token_storage'
+
+    app.shop_register_subscriber:
+        class: ShopBundle\EventListener\ShopRegisterSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
+
+    app.shop_authentication_subscriber:
+        class: UserBundle\EventListener\AuthenticationSubscriber
+        arguments: ['@app.user.login_manager', 'shop']
+        tags:
+            - { name: kernel.event_subscriber}
