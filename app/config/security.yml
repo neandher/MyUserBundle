@@ -15,7 +15,7 @@ security:
             id: app.shop_user_provider.email_or_name_based
 
     encoders:
-        AppBundle\Model\User: bcrypt
+        UserBundle\Model\User: bcrypt
 
     firewalls:
         

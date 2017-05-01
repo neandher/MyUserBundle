@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Util;
+namespace UserBundle\Security;
 
 use Psr\Log\LoggerInterface;
 

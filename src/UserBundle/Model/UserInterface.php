@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Model;
+namespace UserBundle\Model;
 
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;

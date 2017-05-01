@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Model;
+namespace UserBundle\Model;
 
 use AppBundle\Resource\Model\TimestampableTrait;
 use AppBundle\Resource\Model\ToggleableTrait;

@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Security;
+namespace UserBundle\Security;
 
-use AppBundle\Model\UserInterface;
+use UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 

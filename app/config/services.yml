@@ -8,54 +8,14 @@ services:
     app.canonicalizer:
         class: AppBundle\Util\Canonicalizer
 
-    app.controller.security:
-        class: AppBundle\Controller\SecurityController
-        autowire: true
-
     app.canonicalizer.subscriber:
         class: AppBundle\EventListener\CanonicalizerSubscriber
         autowire: true
         tags:
             - { name: doctrine.event_subscriber }
 
-    app.user_encode_password.subscriber:
-        class: AppBundle\EventListener\EncodePasswordSubscriber
-        autowire: true
-        tags:
-            - { name: doctrine.event_subscriber }
-
-    app.last_login_subscriber:
-        class: AppBundle\EventListener\LastLoginSubscriber
-        autowire: true
-        tags:
-            - { name: kernel.event_subscriber }
-
-    app.util.token_generator:
-        class: AppBundle\Util\TokenGenerator
-        autowire: true
-
     app.util.flash_bag:
         class: AppBundle\Util\FlashBag
-        autowire: true
-
-    app.mailer.user:
-        class: AppBundle\Mailer\UserMailer
-        autowire: true
-
-    app.resetting_request_subscriber:
-        class: AppBundle\EventListener\ResettingRequestSubscriber
-        autowire: true
-        tags:
-            - { name: kernel.event_subscriber }
-
-    app.resetting_reset_subscriber:
-        class: AppBundle\EventListener\ResettingResetSubscriber
-        autowire: true
-        tags:
-            - { name: kernel.event_subscriber }
-
-    app.login_manager:
-        class: AppBundle\Security\LoginManager
         autowire: true
 
     app.util.pagination:

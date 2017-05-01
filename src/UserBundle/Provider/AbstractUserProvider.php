@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Provider;
+namespace UserBundle\Provider;
 
-use AppBundle\Repository\UserRepositoryInterface;
+use UserBundle\Repository\UserRepositoryInterface;
 use AppBundle\Util\Canonicalizer;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;

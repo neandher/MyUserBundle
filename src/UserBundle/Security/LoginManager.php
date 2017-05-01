@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Security;
+namespace UserBundle\Security;
 
 use AppBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\RequestStack;

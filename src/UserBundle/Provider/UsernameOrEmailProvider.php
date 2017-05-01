@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Provider;
+namespace UserBundle\Provider;
 
 class UsernameOrEmailProvider extends AbstractUserProvider
 {

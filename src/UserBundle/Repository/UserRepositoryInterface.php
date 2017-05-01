@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Repository;
+namespace UserBundle\Repository;
 
-use AppBundle\Model\UserInterface;
+use UserBundle\Model\UserInterface;
 
 interface UserRepositoryInterface
 {
