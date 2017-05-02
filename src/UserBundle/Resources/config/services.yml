@@ -39,3 +39,9 @@ services:
     app.user.mailer:
         class: UserBundle\Mailer\UserMailer
         autowire: true
+
+    app.canonicalizer.subscriber:
+        class: UserBundle\EventListener\CanonicalizerSubscriber
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }

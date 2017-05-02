@@ -2,7 +2,7 @@
 
 namespace UserBundle\Security;
 
-use AppBundle\Model\UserInterface;
+use UserBundle\Model\UserInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;

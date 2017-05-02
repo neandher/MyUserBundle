@@ -1,10 +1,9 @@
 <?php
 
-namespace AppBundle\EventListener;
+namespace UserBundle\EventListener;
 
-use AppBundle\Entity\Customer;
-use AppBundle\Model\User;
-use AppBundle\Model\UserInterface;
+use ShopBundle\Entity\Customer;
+use UserBundle\Model\UserInterface;
 use AppBundle\Util\Canonicalizer;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
