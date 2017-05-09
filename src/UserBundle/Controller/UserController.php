@@ -215,7 +215,7 @@ class UserController extends UserBaseController
         );
     }
 
-    public function changePassword(Request $request)
+    public function changePasswordAction(Request $request)
     {
         /** @var UserInterface $user */
         $user = $this->tokenStorage->getToken()->getUser();

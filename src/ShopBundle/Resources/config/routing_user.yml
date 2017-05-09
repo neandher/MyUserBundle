@@ -39,7 +39,7 @@ shop_change_password:
     path: /change-password
     methods: [GET, POST]
     defaults:
-        _controller: app.controller.shop_user:changePassword
+        _controller: app.controller.shop_user:changePasswordAction
         _app_options:
             template: "shop/account/changePassword/changePassword.html.twig"
             redirect: shop_account_dashboard
