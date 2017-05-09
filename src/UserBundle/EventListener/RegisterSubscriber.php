@@ -1,6 +1,6 @@
 <?php
 
-namespace ShopBundle\EventListener;
+namespace UserBundle\EventListener;
 
 use ShopBundle\Entity\Customer;
 use UserBundle\Event\UserEvents;
@@ -12,7 +12,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class ShopRegisterSubscriber implements EventSubscriberInterface
+class RegisterSubscriber implements EventSubscriberInterface
 {
 
     /**
@@ -74,17 +74,23 @@ class ShopRegisterSubscriber implements EventSubscriberInterface
     {
         /** @var UserInterface $user */
         $user = $event->getSubject();
+        $roles = $event->getArgument('roles');
+        $needConfirmation = $event->hasArgument('need_confirmation') ? $event->getArgument('need_confirmation') : false;
 
-        $user->setIsEnabled(false);
-        $user->setUsername($user->getEmail());
-        $user->setRoles(['ROLE_USER']);
+        $user->setUsername($user->getEmail())
+            ->setRoles($roles);
 
-        if (null === $user->getConfirmationToken()) {
-            $user->setConfirmationToken($this->tokenGenerator->generateToken());
+        if ($needConfirmation) {
+
+            $user->setIsEnabled(false);
+
+            if (null === $user->getConfirmationToken()) {
+                $user->setConfirmationToken($this->tokenGenerator->generateToken());
+            }
+
+            $email_params = $event->getArgument('email_params');
+
+            $this->mailer->sendLinkWithTokenEmailMessage($user, $email_params);
         }
-
-        $email_params = $event->getArgument('email_params');
-
-        $this->mailer->sendLinkWithTokenEmailMessage($user, $email_params);
     }
 }

@@ -28,12 +28,6 @@ services:
             - '@app.util.flash_bag'
             - '@security.token_storage'
 
-    app.shop_register_subscriber:
-        class: ShopBundle\EventListener\ShopRegisterSubscriber
-        autowire: true
-        tags:
-            - { name: kernel.event_subscriber }
-
     app.shop_authentication_subscriber:
         class: UserBundle\EventListener\AuthenticationSubscriber
         arguments: ['@app.user.login_manager', 'shop']

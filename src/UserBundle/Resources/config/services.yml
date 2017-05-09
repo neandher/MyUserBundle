@@ -45,3 +45,9 @@ services:
         autowire: true
         tags:
             - { name: doctrine.event_subscriber }
+
+    app.register_subscriber:
+        class: UserBundle\EventListener\RegisterSubscriber
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
