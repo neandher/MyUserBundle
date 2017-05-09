@@ -3,6 +3,7 @@
 namespace AdminBundle\Entity;
 
 use AdminBundle\Model\AdminUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -16,6 +17,7 @@ class AdminUser extends BaseUser implements AdminUserInterface
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $firstName;
 
@@ -23,6 +25,7 @@ class AdminUser extends BaseUser implements AdminUserInterface
      * @var string
      *
      * @ORM\Column(type="string")
+     * @Assert\NotBlank()
      */
     private $lastName;
 

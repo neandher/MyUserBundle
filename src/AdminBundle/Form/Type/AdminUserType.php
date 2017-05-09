@@ -29,7 +29,8 @@ class AdminUserType extends UserType
     {
         $resolver->setDefaults([
             'data_class' => AdminUser::class,
-            'is_edit' => false
+            'validation_groups' => ['Default', 'creating'],
+            'is_edit' => false,
         ]);
     }
 

@@ -43,6 +43,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     protected $email;
 

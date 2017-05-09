@@ -59,14 +59,14 @@ class AdminUserController extends BaseController
 
             $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, $event);
 
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($adminUser);
+            $em->flush();
+
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_SUCCESS,
                 FlashBagEvents::MESSAGE_SUCCESS_INSERTED
             );
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($adminUser);
-            $em->flush();
 
             return $this->redirectToRoute('admin_user_index');
         }
