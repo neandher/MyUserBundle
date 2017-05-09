@@ -21,7 +21,6 @@ class UserType extends PlainPasswordType
             ->add('isEnabled', CheckboxType::class, ['required' => false, 'label' => 'user.is_enabled']);
 
         if (!$options['is_edit']) {
-
             parent::buildForm($builder,$options);
         }
     }

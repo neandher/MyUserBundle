@@ -28,7 +28,8 @@ class AdminUserType extends UserType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => AdminUser::class
+            'data_class' => AdminUser::class,
+            'is_edit' => false
         ]);
     }
 

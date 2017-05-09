@@ -2,11 +2,15 @@
 
 namespace AdminBundle\Controller;
 
+use AdminBundle\Form\Type\AdminUserType;
 use AppBundle\Controller\BaseController;
 use AdminBundle\Entity\AdminUser;
+use AppBundle\Event\FlashBagEvents;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
+use UserBundle\Event\UserEvents;
 
 /**
  * Class AdminUserController
@@ -42,7 +46,34 @@ class AdminUserController extends BaseController
      */
     public function newAction(Request $request)
     {
+        $adminUser = new AdminUser();
 
+        $form = $this->createForm(AdminUserType::class, $adminUser);
+
+        $form->handleRequest($request);
+
+        if ($form->isValid() && $form->isSubmitted()) {
+
+            $event = new GenericEvent($adminUser);
+            $event->setArgument('roles', ['ROLE_ADMINISTRATION_ACCESS']);
+
+            $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, $event);
+
+            $this->get('app.util.flash_bag')->newMessage(
+                FlashBagEvents::MESSAGE_TYPE_SUCCESS,
+                FlashBagEvents::MESSAGE_SUCCESS_INSERTED
+            );
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($adminUser);
+            $em->flush();
+
+            return $this->redirectToRoute('admin_user_index');
+        }
+
+        return $this->render('admin/user/new.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
