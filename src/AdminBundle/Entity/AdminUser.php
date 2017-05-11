@@ -3,6 +3,7 @@
 namespace AdminBundle\Entity;
 
 use AdminBundle\Model\AdminUserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -10,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="AdminBundle\Repository\AdminUserRepository")
  * @ORM\Table(name="admin_user")
+ * @UniqueEntity(fields={"email"}, message="user.email.already_exists")
  */
 class AdminUser extends BaseUser implements AdminUserInterface
 {
@@ -28,6 +30,25 @@ class AdminUser extends BaseUser implements AdminUserInterface
      * @Assert\NotBlank()
      */
     private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     */
+    protected $email;
+
+    /**
+     * AdminUser constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        
+        $this->roles = [AdminUserInterface::DEFAULT_ADMIN_ROLE];
+    }
 
     /**
      * @return string

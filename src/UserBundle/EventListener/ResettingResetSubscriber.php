@@ -69,7 +69,7 @@ class ResettingResetSubscriber implements EventSubscriberInterface
 
             $this->flashBag->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_ERROR,
-                'security.resetting.reset.errors.invalid_token'
+                'user.resetting.reset.errors.invalid_token'
             );
 
             $request->attributes->add(['error' => 'true']);
@@ -78,7 +78,7 @@ class ResettingResetSubscriber implements EventSubscriberInterface
 
             $this->flashBag->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_ERROR,
-                'security.resetting.reset.errors.expired_token'
+                'user.resetting.reset.errors.expired_token'
             );
 
             $request->attributes->add(['error' => 'true']);

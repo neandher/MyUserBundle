@@ -18,7 +18,7 @@ class ChangePasswordType extends PlainPasswordType
                 'current_password',
                 PasswordType::class,
                 array(
-                    'label' => 'security.change_password.fields.current_password',
+                    'label' => 'user.form.current_password',
                     'mapped' => false,
                     'constraints' => new UserPassword()
                 )
@@ -32,7 +32,8 @@ class ChangePasswordType extends PlainPasswordType
         $resolver->setDefaults(
             array(
                 'data_class' => UserInterface::class,
-                'validation_groups' => ['Default', 'changing']
+                'validation_groups' => ['Default', 'changing'],
+                'is_register' => false
             )
         );
     }

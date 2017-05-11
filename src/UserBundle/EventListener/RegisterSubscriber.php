@@ -74,11 +74,9 @@ class RegisterSubscriber implements EventSubscriberInterface
     {
         /** @var UserInterface $user */
         $user = $event->getSubject();
-        $roles = $event->getArgument('roles');
         $needConfirmation = $event->hasArgument('need_confirmation') ? $event->getArgument('need_confirmation') : false;
 
-        $user->setUsername($user->getEmail())
-            ->setRoles($roles);
+        $user->setUsername($user->getEmail());
 
         if ($needConfirmation) {
 

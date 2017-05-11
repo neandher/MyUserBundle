@@ -39,18 +39,17 @@ class RegisterController extends BaseController
             $event = new GenericEvent($customer->getShopUser());
             $event->setArgument('email_params', $this->getParameter('shop_register_email'));
             $event->setArgument('need_confirmation', true);
-            $event->setArgument('roles', ['ROLE_USER']);
 
             $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, $event);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($customer);
+            $em->flush();
 
             $this->get('app.util.flash_bag')->newMessage(
                 FlashBagEvents::MESSAGE_TYPE_SUCCESS,
                 'shop.register.success_flash'
             );
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($customer);
-            $em->flush();
 
             return $this->redirectToRoute('shop_account_dashboard');
         }

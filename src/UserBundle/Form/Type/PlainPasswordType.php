@@ -14,25 +14,32 @@ class PlainPasswordType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $options['is_register'] = empty($options['is_register']) ? true : $options['is_register'];
+        
+        $labelFirstOptions = $options['is_register'] ? 'user.form.password' : 'user.form.new_password';
+        $labelSecondOptions = $options['is_register'] ? 'user.form.confirm_password'
+            : 'user.form.new_password_confirmation';
+
         $builder
             ->add(
                 'plainPassword',
                 RepeatedType::class,
-                array(
-                    'type'          => PasswordType::class,
-                    'first_options' => array('label' => 'security.resetting.reset.fields.new_password'),
-                    'second_options' => array('label' => 'security.resetting.reset.fields.confirm_password'),
-                    'invalid_message' => 'security.password.mismatch'
-                )
+                [
+                    'type' => PasswordType::class,
+                    'first_options' => ['label' => $labelFirstOptions],
+                    'second_options' => ['label' => $labelSecondOptions],
+                    'invalid_message' => 'user.password.mismatch'
+                ]
             );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
-            array(
+            [
                 'data_class' => UserInterface::class,
-            )
+            ]
         );
     }
 }

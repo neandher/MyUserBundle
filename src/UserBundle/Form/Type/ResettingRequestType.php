@@ -13,7 +13,7 @@ class ResettingRequestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, ['label' => 'security.resetting.request.fields.email']);
+            ->add('email', EmailType::class, ['label' => 'user.form.email']);
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -39,7 +39,7 @@ admin_change_password:
     path: /change-password
     methods: [GET, POST]
     defaults:
-        _controller: app.controller.admin_user:changePassword
+        _controller: app.controller.admin_user:changePasswordAction
         _app_options:
             template: "admin/changePassword/changePassword.html.twig"
             redirect: admin_dashboard

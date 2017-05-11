@@ -22,22 +22,22 @@ class CustomerRegistrationType extends PlainPasswordType
     {
         $builder
             ->add('firstName', TextType::class, [
-                'label' => 'customers.fields.first_name',
+                'label' => 'shop.customers.form.first_name',
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'customers.fields.last_name',
+                'label' => 'shop.customers.form.last_name',
             ])
             ->add('phoneNumber', TextType::class, [
                 'required' => false,
-                'label' => 'customers.fields.phone_number',
+                'label' => 'shop.customers.form.phone_number',
             ])
             ->add('isSubscribedToNewsletter', CheckboxType::class, [
                 'required' => false,
-                'label' => 'customers.fields.subscribed_to_newsletter',
+                'label' => 'shop.customers.form.subscribed_to_newsletter',
             ])
-            ->add('email', EmailType::class, ['label' => 'customers.fields.email'])
+            ->add('email', EmailType::class, ['label' => 'shop.customers.form.email'])
             ->add('shopUser', ShopUserRegistrationType::class, [
-                'label' => false
+                'label' => false,
             ])
             ->addEventSubscriber(new CustomerRegistrationFormSubscriber($options['repository']))
             ->setDataLocked(false);

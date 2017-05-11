@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="customer")
  * @ORM\Entity(repositoryClass="ShopBundle\Repository\CustomerRepository")
- * @UniqueEntity(fields={"email","emailCanonical"}, message="Email já cadastrado!")
+ * @UniqueEntity(fields={"email"}, message="user.email.already_exists")
  */
 class Customer
 {
@@ -343,7 +343,6 @@ class Customer
             $this->shopUser = $shopUser;
             $this->assignCustomer($shopUser);
         }
-        //$this->shopUser = $shopUser;
         return $this;
     }
 

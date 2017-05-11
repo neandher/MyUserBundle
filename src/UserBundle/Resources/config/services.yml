@@ -4,7 +4,7 @@ services:
         class: UserBundle\Controller\SecurityController
         autowire: true
 
-    app.last_login_subscriber:
+    app.user.last_login_subscriber:
         class: UserBundle\EventListener\LastLoginSubscriber
         autowire: true
         tags:
@@ -20,13 +20,13 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-    app.resetting_request_subscriber:
+    app.user.resetting_request_subscriber:
         class: UserBundle\EventListener\ResettingRequestSubscriber
         autowire: true
         tags:
             - { name: kernel.event_subscriber }
 
-    app.resetting_reset_subscriber:
+    app.user.resetting_reset_subscriber:
         class: UserBundle\EventListener\ResettingResetSubscriber
         autowire: true
         tags:
@@ -40,13 +40,13 @@ services:
         class: UserBundle\Mailer\UserMailer
         autowire: true
 
-    app.canonicalizer.subscriber:
+    app.user.canonicalizer.subscriber:
         class: UserBundle\EventListener\CanonicalizerSubscriber
         autowire: true
         tags:
             - { name: doctrine.event_subscriber }
 
-    app.register_subscriber:
+    app.user.register_subscriber:
         class: UserBundle\EventListener\RegisterSubscriber
         autowire: true
         tags:

@@ -5,12 +5,14 @@ namespace UserBundle\Model;
 use AppBundle\Resource\Model\TimestampableTrait;
 use AppBundle\Resource\Model\ToggleableTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User
  *
  * @ORM\MappedSuperclass()
+ * @UniqueEntity(fields={"email","emailCanonical"}, message="user.email.already_exists")
  */
 class User implements UserInterface
 {
@@ -24,7 +26,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-    
+
     /**
      * @var string
      *
@@ -42,9 +44,7 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @ORM\Column(type="string", nullable=true)     
      */
     protected $email;
 
@@ -122,7 +122,7 @@ class User implements UserInterface
      *
      * @ORM\Column(type="array")
      */
-    protected $roles = array();
+    protected $roles = [UserInterface::DEFAULT_ROLE];
 
     /**
      * @var bool
@@ -531,7 +531,7 @@ class User implements UserInterface
     public function getObfuscatedEmail()
     {
         $email = $this->getEmail();
-        
+
         if (false !== $pos = strpos($email, '@')) {
             $email = '...' . substr($email, $pos);
         }

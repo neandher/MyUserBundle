@@ -54,10 +54,7 @@ class AdminUserController extends BaseController
 
         if ($form->isValid() && $form->isSubmitted()) {
 
-            $event = new GenericEvent($adminUser);
-            $event->setArgument('roles', ['ROLE_ADMINISTRATION_ACCESS']);
-
-            $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, $event);
+            $this->get('event_dispatcher')->dispatch(UserEvents::REGISTRATION_SUCCESS, new GenericEvent($adminUser));
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($adminUser);

@@ -1,0 +1,25 @@
+shop:
+    register:
+        new: Criar uma conta
+        btn_create: Criar conta
+        personal_information: Informações Pessoais
+        account_credentials: Senha de acesso
+        success_flash: Seu cadastro foi efetuado com sucesso. Acesse seu e-mail para confirmar seu cadastro.
+        email:
+            subject: Confirmação de Cadastro
+            message: |
+                Olá, %full_name%!
+
+                Para confirmar sua conta, clique no link: %url%
+
+                Atenciosamente,
+                a Equipe.
+        invalid_token: Token Inválido
+        confirmed: Parabéns, username. A sua conta foi ativada.
+    customers:
+        form:
+            first_name: Primeiro Nome
+            last_name: Sobrenome
+            email: E-mail
+            phone_number: Telefone
+            subscribed_to_newsletter: Receber novidades

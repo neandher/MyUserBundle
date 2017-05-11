@@ -10,6 +10,8 @@ use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 interface UserInterface extends AdvancedUserInterface, ToggleableInterface, TimestampableInterface
 {
 
+    const DEFAULT_ROLE = 'ROLE_USER';
+    
     /**
      * @return integer
      */

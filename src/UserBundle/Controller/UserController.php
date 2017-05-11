@@ -135,12 +135,12 @@ class UserController extends UserBaseController
 
             if (!$user) {
                 $form->addError(
-                    new FormError($this->translator->trans('security.resetting.request.errors.email_not_found'))
+                    new FormError($this->translator->trans('user.resetting.request.errors.email_not_found'))
                 );
             } else if ($user->isPasswordRequestNonExpired($this->tokenTTL)) {
                 $form->addError(
                     new FormError(
-                        $this->translator->trans('security.resetting.request.errors.password_already_requested')
+                        $this->translator->trans('user.resetting.request.errors.password_already_requested')
                     )
                 );
             }
@@ -201,7 +201,7 @@ class UserController extends UserBaseController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->flashBag->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, 'security.resetting.reset.success');
+            $this->flashBag->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, 'user.resetting.reset.success');
 
             $this->eventDispatcher->dispatch(UserEvents::RESETTING_RESET_COMPLETED, new GenericEvent($user));
 
@@ -230,7 +230,7 @@ class UserController extends UserBaseController
             $this->em->persist($user);
             $this->em->flush();
 
-            $this->flashBag->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, 'security.change_password.success');
+            $this->flashBag->newMessage(FlashBagEvents::MESSAGE_TYPE_SUCCESS, 'user.change_password.success');
 
             $redirectRouteName = $this->getAppAttibute($request, 'redirect');
 

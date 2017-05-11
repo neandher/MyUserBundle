@@ -53,7 +53,7 @@ class ResettingRequestSubscriber implements EventSubscriberInterface
 
         $this->flashBagHelper->newMessage(
             FlashBagEvents::MESSAGE_TYPE_SUCCESS,
-            'security.resetting.request.check_email',
+            'user.resetting.request.check_email',
             [
                 'user_email' => $user->getObfuscatedEmail()
             ]
