@@ -18,7 +18,7 @@ class AdminUser extends BaseUser implements AdminUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\NotBlank()
      */
     private $firstName;
@@ -26,7 +26,7 @@ class AdminUser extends BaseUser implements AdminUserInterface
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\NotBlank()
      */
     private $lastName;
